@@ -23,11 +23,6 @@ zone \"abimanyu.f11.com\" {
 	file \"/etc/bind/abimanyu/abimanyu.f11.com\";
 };
 
-zone \"3.57.10.in-addr.arpa\" {
-    type master;
-    file \"/etc/bind/arjuna/3.57.10.in-addr.arpa\";
-};
-
 zone \"2.57.10.in-addr.arpa\" {
     type master;
     file \"/etc/bind/abimanyu/2.57.10.in-addr.arpa\";
@@ -69,19 +64,6 @@ baratayuda  IN  NS      ns1
 rjp         IN  NS      ns1
 www.rjp     IN  NS      ns1
 " > /etc/bind/abimanyu/abimanyu.f11.com
-
-echo "
-\$TTL 604800
-@                       IN  SOA     arjuna.f11.com. root.arjuna.f11.com. (
-2023100901
-604800
-86400
-2419200
-604800
-)
-3.57.10.in-addr.arpa.   IN  NS  arjuna.f11.com.
-2                       IN  PTR arjuna.f11.com.
-" > /etc/bind/arjuna/3.57.10.in-addr.arpa
 
 echo "
 \$TTL 604800
