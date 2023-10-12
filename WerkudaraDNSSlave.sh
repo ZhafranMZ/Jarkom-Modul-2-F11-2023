@@ -66,15 +66,17 @@ options {
 
 echo "
 \$TTL 604800
-@  	IN  SOA     baratayuda.abimanyu.f11.com. root.baratayuda.abimanyu.f11.com. (
+@  		IN  SOA     baratayuda.abimanyu.f11.com. root.baratayuda.abimanyu.f11.com. (
 2023100901
 604800
 86400
 2419200
 604800
 )
-@	IN	NS		baratayuda.abimanyu.f11.com.
-@	IN	A		10.57.2.3
-www IN  CNAME   baratayuda.abimanyu.f11.com.
+@		IN	NS		baratayuda.abimanyu.f11.com.
+@		IN	A		10.57.2.3
+www 	IN  CNAME   baratayuda.abimanyu.f11.com.
+rjp		IN	CNAME	baratayuda.abimanyu.f11.com.
+www.rjp	IN	CNAME	baratayuda.abimanyu.f11.com.
 " > /etc/bind/baratayuda/baratayuda.abimanyu.f11.com
 service bind9 restart

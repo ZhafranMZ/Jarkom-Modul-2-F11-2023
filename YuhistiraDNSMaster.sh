@@ -66,6 +66,8 @@ www         IN  CNAME   abimanyu.f11.com.
 parikesit   IN  CNAME   abimanyu.f11.com.
 ns1         IN  A       10.57.1.3
 baratayuda  IN  NS      ns1
+rjp         IN  NS      ns1
+www.rjp     IN  NS      ns1
 " > /etc/bind/abimanyu/abimanyu.f11.com
 
 echo "
