@@ -7,27 +7,27 @@ mkdir -p /etc/bind/arjuna
 mkdir -p /etc/bind/abimanyu
 
 echo "
-zone "arjuna.f11.com" {
+zone \"arjuna.f11.com\" {
 	type master;
-	file "/etc/bind/arjuna/arjuna.f11.com";
+	file \"/etc/bind/arjuna/arjuna.f11.com\";
 };
 
-zone "abimanyu.f11.com" {
+zone \"abimanyu.f11.com\" {
 	type master;
-	file "/etc/bind/abimanyu/abimanyu.f11.com";
+	file \"/etc/bind/abimanyu/abimanyu.f11.com\";
 };
 
-zone "3.57.10.in-addr.arpa" {
+zone \"3.57.10.in-addr.arpa\" {
     type master;
-    file "/etc/bind/arjuna/3.57.10.in-addr.arpa";
+    file \"/etc/bind/arjuna/3.57.10.in-addr.arpa\";
 };
 
-zone "2.57.10.in-addr.arpa" {
+zone \"2.57.10.in-addr.arpa\" {
     type master;
-    file "/etc/bind/abimanyu/2.57.10.in-addr.arpa";
+    file \"/etc/bind/abimanyu/2.57.10.in-addr.arpa\";
 };
 
-" >> /etc/bind/named.conf.local
+" > /etc/bind/named.conf.local
 
 echo "
 \$TTL 604800
@@ -42,7 +42,7 @@ echo "
 @   IN  A       10.57.3.2
 @   IN  AAAA    ::1
 www IN  CNAME   arjuna.f11.com.
-" >> /etc/bind/arjuna/arjuna.f11.com
+" > /etc/bind/arjuna/arjuna.f11.com
 
 echo "
 \$TTL 604800
@@ -58,7 +58,7 @@ echo "
 @           IN  AAAA    ::1
 www         IN  CNAME   abimanyu.f11.com.
 parikesit   IN  CNAME   abimanyu.f11.com.
-" >> /etc/bind/abimanyu/abimanyu.f11.com
+" > /etc/bind/abimanyu/abimanyu.f11.com
 
 echo "
 \$TTL 604800
@@ -71,7 +71,7 @@ echo "
 )
 3.57.10.in-addr.arpa.   IN  NS  arjuna.f11.com.
 2                       IN  PTR arjuna.f11.com.
-" >> /etc/bind/arjuna/3.57.10.in-addr.arpa
+" > /etc/bind/arjuna/3.57.10.in-addr.arpa
 
 echo "
 \$TTL 604800
@@ -84,4 +84,4 @@ echo "
 )
 2.57.10.in-addr.arpa.   IN  NS  abimanyu.f11.com.
 3                       IN  PTR abimanyu.f11.com.
-" >> /etc/bind/abimanyu/abimanyu.f11.com
+" > /etc/bind/abimanyu/2.57.10.in-addr.arpa

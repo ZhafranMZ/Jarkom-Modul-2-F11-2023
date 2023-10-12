@@ -1,0 +1,10 @@
+|Hostname|IP|
+|--------|--|
+|YudhistiraDNSMaster|10.57.1.2|
+|WerkudaraDNSSLave|10.57.1.3|
+|PrabukusumaWebServer|10.57.2.2|
+|AbimanyuWebServer|10.57.2.3|
+|WisanggeniWebServer|10.57.2.4|
+|ArjunaLoadBalancer|10.57.3.2|
+|SadewaClient|10.57.3.3|
+|NakulaClient|10.57.3.4|
