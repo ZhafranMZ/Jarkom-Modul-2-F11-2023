@@ -38,9 +38,18 @@ echo "
         <Directory /var/www/parikesit.abimanyu.f11/public>
             Options +Indexes
         </Directory>
+        <Directory /var/www/parikesit.abimanyu.f11/public>
+            Options +Indexes
+        </Directory>
         <Directory /var/www/parikesit.abimanyu.f11/secret>
             Options -Indexes
         </Directory>
+
+        Alias \"/js\" \"/var/www/jarkom2022.com/public/js\"
+        
+        ErrorDocument 403 /errors/403.html
+        ErrorDocument 404 /errors/404.html
+
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
