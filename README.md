@@ -32,6 +32,7 @@ www.parikesit.abimanyu.yyy.com/js
 
 ### PENJELASAN
 **IP Masing-masing Vertex**
+```bash
 |YudhistiraDNSMaster|10.57.1.2|
 |WerkudaraDNSSLave|10.57.1.3|
 |PrabukusumaWebServer|10.57.2.2|
@@ -40,7 +41,7 @@ www.parikesit.abimanyu.yyy.com/js
 |ArjunaLoadBalancer|10.57.3.2|
 |SadewaClient|10.57.3.3|
 |NakulaClient|10.57.3.4|
-
+```
 ### CODE
 #### YudhistiraDNSMaster.sh
 
