@@ -161,6 +161,10 @@ echo "
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} .*abimanyu.*\.(jpg|png|gif|jpeg) [NC]
+        RewriteRule ^(.*)$ /var/www/parikesit.abimanyu.f11/public/images/abiman$
+
         # For most configuration files from conf-available/, which are
         # enabled or disabled at a global level, it is possible to
         # include a line for only one particular virtual host. For example the
@@ -177,5 +181,6 @@ echo "
 ln -s /etc/nginx/sites-available/arjuna /etc/nginx/sites-enabled
 rm /etc/nginx/sites-enabled/default
 
+a2enmod rewrite
 service apache2 restart
 service nginx restart
