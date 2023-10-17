@@ -12,7 +12,7 @@ unzip ./parikesit.abimanyu.yyy.com.zip
 unzip ./rjp.baratayuda.abimanyu.yyy.com.zip
 
 mkdir -p /var/www/
-mkdir /var/www/parikesit.abimanyu.f11/secret
+mkdir -p /var/www/parikesit.abimanyu.f11/secret
 
 mv ./abimanyu.yyy.com /var/www/abimanyu.f11
 mv ./parikesit.abimanyu.yyy.com /var/www/parikesit.abimanyu.f11
