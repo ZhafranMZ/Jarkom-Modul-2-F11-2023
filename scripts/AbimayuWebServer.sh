@@ -72,12 +72,12 @@ echo "
         ServerName rjp.baratayuda.abimanyu.f11.com
         ServerAlias www.rjp.baratayuda.abimanyu.f11.com
 
-#        <Directory \"/var/www/rjp.baratayuda.abimanyu.f11\">
-#            AuthType Basic
-#            AuthName \"Restricted Content\"
-#            AuthUserFile /etc/apache2/.htpasswd
-#            Require valid-user
-#        </Directory>
+        <Directory /var/www/rjp.baratayuda.abimanyu.f11>
+                AuthType Basic
+                AuthName \"Private Area\"
+                AuthUserFile /etc/apache2/.htpasswd
+                Require valid-user
+        </Directory>
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
@@ -106,9 +106,7 @@ Listen 14400
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 " > /etc/apache2/ports.conf
 
-echo "
-Wayang:\$apr1\$3E9.dVgh\$xxSkNA.yJqHc5NL4KI.iz1
-" /etc/apache2/.htpasswd Wayang
+echo "baratayudaf11" | htpasswd -ci /etc/apache2/.htpasswd Wayang
 
 service apache2 restart
 
