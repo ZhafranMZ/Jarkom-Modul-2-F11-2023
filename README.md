@@ -1,7 +1,7 @@
 # Jarkom-Modul-2-F11-2023
 ## Kelompok F11
 ## NAMA :
--	Muhammad Zhafran			        (5025211100)
+-	Muhammad Zhafran			(5025211100)
 -	Mohamad Valdi Ananda Tauhid		(5025221238)
 
 ### Quick Start
@@ -151,7 +151,7 @@ service bind9 restart
 ```
 
 **Penjelasan:**
-- Pertama gunakan apt-get untuk menginstal dan mengkonfigurasi BIND9 sebagai DNS server pada YudhistiraDNSMaster.
+- Pertama gunakan apt-get untuk menginstall dan mengkonfigurasi BIND9 sebagai DNS server pada YudhistiraDNSMaster.
 - Lalu buat direktori `/etc/bind/arjuna` dan `/etc/bind/abimanyu` untuk menyimpan file konfigurasi DNS zone.
 - Selanjutnya konfigurasi DNS zone "arjuna.f11.com", "abimanyu.f11.com" dan reverse zone "2.57.10.in-addr.arpa".
 - Konfigurasi DNS zone "arjuna.f11.com" berisi informasi SOA (Start of Authority), NS (Name Server), dan alamat IP.
@@ -227,7 +227,7 @@ service bind9 restart
 ```
 
 **Penjelasan:**
-- Instal dan konfigurasi BIND9 sebagai DNS server pada WerkudaraDNSSlave.
+- Install dan konfigurasi BIND9 sebagai DNS server pada WerkudaraDNSSlave.
 - Buat direktori `/etc/bind/arjuna`, `/etc/bind/abimanyu`, dan `/etc/bind/baratayuda` untuk menyimpan file konfigurasi DNS zone.
 - Konfigurasi DNS zone "arjuna.f11.com" dan "abimanyu.f11.com" sebagai slave.
 - Konfigurasi "baratayuda.abimanyu.f11.com" sebagai master.
@@ -242,25 +242,30 @@ echo nameserver 192.168.122.1 > /etc/resolv.conf
 apt-get update
 apt-get install apache2 ca-certificates unzip apache2-utils libapache2-mod-php7.0 -y
 service apache2 start
+service php7.0-fpm start
 
 # Mengunduh file
 curl --location --remote-header-name --remote-name https://github.com/ZhafranMZ/Jarkom-Modul-2-F11-2023/raw/main/resources/abimanyu.yyy.com.zip
 curl --location --remote-header-name --remote-name https://github.com/ZhafranMZ/Jarkom-Modul-2-F11-2023/raw/main/resources/parikesit.abimanyu.yyy.com.zip
 curl --location --remote-header-name --remote-name https://github.com/ZhafranMZ/Jarkom-Modul-2-F11-2023/raw/main/resources/rjp.baratayuda.abimanyu.yyy.com.zip
+curl --location --remote-header-name --remote-name https://github.com/ZhafranMZ/Jarkom-Modul-2-F11-2023/raw/main/resources/arjuna.yyy.com.zip
 
 # Mengekstrak file
 unzip ./abimanyu.yyy.com.zip
 unzip ./parikesit.abimanyu.yyy.com.zip
 unzip ./rjp.baratayuda.abimanyu.yyy.com.zip
+unzip ./arjuna.yyy.com.zip
 
 # Membuat direktori untuk web server
 mkdir -p /var/www/
-mkdir /var/www/parikesit.abimanyu.f11/secret
 
 # Memindahkan file ke direktori web server
 mv ./abimanyu.yyy.com /var/www/abimanyu.f11
 mv ./parikesit.abimanyu.yyy.com /var/www/parikesit.abimanyu.f11
 mv ./rjp.baratayuda.abimanyu.yyy.com /var/www/rjp.baratayuda.abimanyu.f11
+mv ./arjuna.yyy.com /var/www/arjuna.f11
+
+mkdir /var/www/parikesit.abimanyu.f11/secret
 
 # Konfigurasi virtual host untuk situs "abimanyu.f11.com"
 echo "
@@ -316,40 +321,125 @@ echo "
         ServerName rjp.baratayuda.abimanyu.f11.com
         ServerAlias www.rjp.baratayuda.abimanyu.f11.com
 
-        # <Directory \"/var/www/rjp.baratayuda.abimanyu.f11\">
-        #     AuthType Basic
-        #     AuthName \"Restricted Content\"
-        #     AuthUserFile /etc/apache2/.htpasswd
-        #     Require valid-user
-        # </Directory>
+        <Directory \"/var/www/rjp.baratayuda.abimanyu.f11\">
+            AuthType Basic
+            AuthName \"Private Area\"
+            AuthUserFile /etc/apache2/.htpasswd
+  	    Require valid-user
+	</Directory>
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
-" > /etc/apache2
-
-/sites-available/rjp.baratayuda.abimanyu.f11.com.conf
+" > /etc/apache2/sites-available/rjp.baratayuda.abimanyu.f11.com.conf
 
 # Mengaktifkan konfigurasi virtual host
 a2ensite rjp.baratayuda.abimanyu.f11.com
 
-# Mengaktifkan modul apache
-a2enmod php7.0
 
-# Mengaktifkan situs default
-a2ensite 000-default.conf
+echo "
+# If you just change the port or add more ports here, you will likely also
+# have to change the VirtualHost statement in
+# /etc/apache2/sites-enabled/000-default.conf
 
-# Restart Apache
-systemctl restart apache2
+Listen 80
+Listen 14000    
+Listen 14400
 
-# Membuat direktori dan file untuk halaman web rjp.baratayuda.abimanyu.f11.com
-mkdir -p /var/www/rjp.baratayuda.abimanyu.f11
-echo "This is the RJP page." > /var/www/rjp.baratayuda.abimanyu.f11/index.html
+<IfModule ssl_module>
+        Listen 443
+</IfModule>
+
+<IfModule mod_gnutls.c>
+        Listen 443
+</IfModule>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+" > /etc/apache2/ports.conf
+
+echo "baratayudaf11" | htpasswd -ci /etc/apache2/.htpasswd Wayang
+
+
+echo '
+server {
+
+	listen 8002;
+
+	root /var/www/arjuna.f11;
+
+	index index.php index.html index.htm;
+	server_name _;
+
+	location / {
+			try_files $uri $uri/ /index.php?$query_string;
+	}
+
+	# pass PHP scripts to FastCGI server
+	location ~ \.php$ {
+	include snippets/fastcgi-php.conf;
+	fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+	}
+
+location ~ /\.ht {
+			deny all;
+	}
+
+	error_log /var/log/nginx/jarkom_error.log;
+	access_log /var/log/nginx/jarkom_access.log;
+}
+' > /etc/nginx/sites-available/arjuna
+
+echo "
+<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} .*abimanyu.*\.(jpg|png|gif|jpeg) [NC]
+        RewriteRule ^(.*)$ /var/www/parikesit.abimanyu.f11/public/images/abiman$
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+        #Redirect permanent / http://www.abimanyu.f11.com
+        RedirectMatch permanent ^/(.*)$ http://www.abimanyu.f11.com/\$1
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+" > /etc/apache2/sites-available/000-default.conf
+
+ln -s /etc/nginx/sites-available/arjuna /etc/nginx/sites-enabled
+rm /etc/nginx/sites-enabled/default
+
+a2enmod rewrite
+service apache2 restart
+service nginx restart
 ```
 
 **Penjelasan:**
-- Instal dan konfigurasi Apache web server.
-- unduh file dari GitHub.
+- Install dan konfigurasi Apache web server.
+- Unduh file dari GitHub.
 - Ekstrak file yang diunduh dan pindahkan ke direktori web server.
 - Membuat direktori dan mengatur konfigurasi virtual host untuk situs "abimanyu.f11.com," "parikesit.abimanyu.f11.com," dan "rjp.baratayuda.abimanyu.f11.com."
 - Mengaktifkan konfigurasi virtual host dan modul PHP untuk Apache.
@@ -382,26 +472,80 @@ apt-get install nginx -y
 
 # Konfigurasi Nginx untuk Load Balancer
 echo "
-http {
-    upstream WebServer {
-        server PrabakusumaWebServer:8001;
-        server AbimanyuWebServer:8002;
-        server WisanggeniWebServer:8003;
-    }
+upstream WebServer {
+    server 10.57.2.2:8001;
+    server 10.57.2.3:8002;
+    server 10.57.2.4:8003;
+}
 
-    server {
-        location / {
-            proxy_pass http://WebServer
-        }
+server {
+    listen 80;
+    server_name arjuna.f11.com www.arjuna.f11.com;
+
+    location / {
+        proxy_pass http://WebServer;
     }
 }
-" > /etc/nginx/nginx.conf
+" > /etc/nginx/sites-available/lb-arjuna
+
+ln -s /etc/nginx/sites-available/lb-arjuna /etc/nginx/sites-enabled
 
 service nginx restart
 ```
 
 **Penjelasan:**
-- Instal dan mengkonfigurasi Nginx sebagai Load Balancer di ArjunaLoadBalancer.
+- Install dan mengkonfigurasi Nginx sebagai Load Balancer di ArjunaLoadBalancer.
 - Konfigurasi Nginx dilakukan dalam file /etc/nginx/nginx.conf.
 - Di dalam konfigurasi, upstream WebsServer mendefinisikan daftar server yang akan menerima permintaan. Dalam hal ini, ada tiga server: PrabakusumaWebServer, AbimanyuWebServer, dan WisanggeniWebServer yang masing-masing berjalan pada port 8001, 8002, dan 8003.
 - proxy_pass http://WebServer yang mengarahkan permintaan ke daftar server yang didefinisikan dalam upstream WebServer. Algoritma Round Robin akan digunakan secara otomatis oleh Nginx untuk mendistribusikan permintaan ke setiap server di dalam daftar dengan bergantian.
+
+#### PrabukusumaWebServer.sh and WisanggeniWebServer.sh
+```bash
+#!/bin/bash
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install ca-certificates unzip nginx php php-fpm -y
+
+service php7.0-fpm start
+
+curl --location --remote-header-name --remote-name https://github.com/ZhafranMZ/Jarkom-Modul-2-F11-2023/raw/main/resources/arjuna.yyy.com.zip
+unzip ./arjuna.yyy.com.zip
+
+mkdir -p /var/www/
+mv ./arjuna.yyy.com /var/www/arjuna.f11
+
+echo '
+server {
+
+	listen 8001;
+
+	root /var/www/arjuna.f11;
+
+	index index.php index.html index.htm;
+	server_name _;
+
+	location / {
+			try_files $uri $uri/ /index.php?$query_string;
+	}
+
+	# pass PHP scripts to FastCGI server
+	location ~ \.php$ {
+	include snippets/fastcgi-php.conf;
+	fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+	}
+
+location ~ /\.ht {
+			deny all;
+	}
+
+	error_log /var/log/nginx/jarkom_error.log;
+	access_log /var/log/nginx/jarkom_access.log;
+}
+' > /etc/nginx/sites-available/arjuna
+
+
+ln -s /etc/nginx/sites-available/arjuna /etc/nginx/sites-enabled
+rm /etc/nginx/site-enabled/default
+
+service nginx restart
+```
