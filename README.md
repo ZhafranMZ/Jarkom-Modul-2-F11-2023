@@ -6,7 +6,6 @@
 
 ### Quick Start
 ```bash
-apt-get install ca-certificates -y && bash -c "$(curl -fs https://raw.githubusercontent.com/McShinyShoe/JarkomGNS3/master/run.sh)"
 echo 'nameserver 192.168.122.1 > /etc/resolv.conf' && apt-get install ca-certificates -y && curl "https://raw.githubusercontent.com/ZhafranMZ/Jarkom-Modul-2-F11-2023/main/scripts/$(hostname).sh" > script.sh && chmod +x script.sh && ./script.sh
 ```
 
