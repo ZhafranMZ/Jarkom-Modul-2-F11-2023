@@ -13,7 +13,7 @@ upstream WebServer {
 
 server {
     listen 80;
-    server_name arjuna.f11.com;
+    server_name arjuna.f11.com www.arjuna.f11.com;
 
     location / {
         proxy_pass http://WebServer;
