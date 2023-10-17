@@ -549,3 +549,5 @@ rm /etc/nginx/site-enabled/default
 
 service nginx restart
 ```
+**Penjelasan:**
+- Server nginx running di port 8001-8003
