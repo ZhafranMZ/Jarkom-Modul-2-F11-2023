@@ -108,7 +108,6 @@ Listen 14400
 
 echo "baratayudaf11" | htpasswd -ci /etc/apache2/.htpasswd Wayang
 
-service apache2 restart
 
 echo '
 server {
@@ -168,13 +167,15 @@ echo "
         # following line enables the CGI configuration for this host only
         # after it has been globally disabled with "a2disconf".
         #Include conf-available/serve-cgi-bin.conf
-        Redirect permanent / http://www.abimanyu.f11.com
+        #Redirect permanent / http://www.abimanyu.f11.com
+        RedirectMatch permanent ^/(.*)$ http://www.abimanyu.f11.com/\$1
 </VirtualHost>
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 " > /etc/apache2/sites-available/000-default.conf
 
 ln -s /etc/nginx/sites-available/arjuna /etc/nginx/sites-enabled
-rm /etc/nginx/site-enabled/default
+rm /etc/nginx/sites-enabled/default
 
+service apache2 restart
 service nginx restart
